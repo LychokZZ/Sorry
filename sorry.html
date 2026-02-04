@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Вибач 🤍</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .card {
+            max-width: 600px;
+            width: 100%;
+            padding: 40px 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+            z-index: 2;
+        }
+
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        .text {
+            font-size: 28px;
+            line-height: 1.4;
+            white-space: pre-line;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .hint {
+            margin-top: 25px;
+            font-size: 14px;
+            opacity: 0.5;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ❤️ HEARTS ❤️ */
+        .heart {
+            position: fixed;
+            top: -30px;
+            pointer-events: none;
+            animation-name: fall;
+            animation-timing-function: linear;
+            opacity: 0.9;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <div id="text" class="text">киця</div>
+        <div class="hint">тапни по екрану</div>
+    </div>
+
+    <script>
+        const texts = [
+            "киця",
+            "вибач",
+            "Вибач",
+            "вибач…",
+            "я дібіл))",
+            "я хочу вибачитись.",
+            "ти для мене важлива.\nдуже.",
+            "мені дуже шкода,\nщо я образив тебе.",
+            "я прошу тебе —\nвибач мене)))",
+            "я обіцяю бути уважнішим,\nі кращим.",
+            "мені потрібна тільки ти.",
+            "я вибачаюсь.\nщиро.\nвід серця 🤍",
+            "дякую, що ти є в моєму житті.",
+            "ти найкраща))",
+            "люблю тебе))",
+            "і ще раз вибач))",
+            "кохаю))",
+            "ти моє щастя))",
+            "цьомаю))"
+        ];
+
+        let index = 0;
+        const textEl = document.getElementById("text");
+
+        let heartsInterval = null;
+
+        function startHearts() {
+            if (heartsInterval) return;
+
+            heartsInterval = setInterval(() => {
+                const heart = document.createElement("div");
+                heart.className = "heart";
+                heart.textContent = Math.random() > 0.5 ? "❤️" : "🤍";
+
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.fontSize = 16 + Math.random() * 28 + "px";
+                heart.style.animationDuration = 3 + Math.random() * 4 + "s";
+
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 7000);
+            }, 250);
+        }
+
+        document.body.addEventListener("click", () => {
+            index = (index + 1) % texts.length;
+
+            textEl.style.animation = "none";
+            textEl.offsetHeight; // перезапуск анімації
+            textEl.style.animation = "fadeIn 0.4s ease";
+            textEl.textContent = texts[index];
+
+            // запускаємо сердечка на фіналі
+            if (index >= texts.length - 3) {
+                startHearts();
+            }
+        });
+    </script>
+
+</body>
+
+</html>
